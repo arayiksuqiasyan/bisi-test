@@ -1,0 +1,48 @@
+.app {
+
+  .header {
+  }
+
+  .representation {
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    //justify-content: space-between;
+    padding: 24px;
+    background: var(--primary);
+
+    .left {
+      width: 10%;
+
+      .leftTexts {
+        display: flex;
+        align-items: center;
+        gap: 64px;
+
+        span {
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .center{
+      display: flex;
+      justify-content: space-between;
+      width: 20%;
+    }
+
+    .right {
+      display: flex;
+      justify-content: flex-end;
+      flex-grow: 1;
+      div{
+        display: flex;
+        gap: 4px;
+      }
+    }
+  }
+
+
+}
