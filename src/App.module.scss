@@ -1,15 +1,21 @@
 .app {
 
   .header {
-  }
+    width: 100%;
+    display: flex;
+    padding: 24px;
+    align-items: center;
+    svg{
+      color: #97a3b9;
+      font-size: 24px;
+      cursor: pointer;
+    }
 
-  .representation {
   }
 
   .item {
     display: flex;
     align-items: center;
-    //justify-content: space-between;
     padding: 24px;
     background: var(--primary);
 

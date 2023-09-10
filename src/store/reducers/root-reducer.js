@@ -57,18 +57,43 @@ export const rootReducer = createSlice({
             if (foundedIndex === -1) {
                 state.openedIds = [...state.openedIds, action.payload]
             } else {
-                state.openedIds = state.openedIds.filter((id) => +id !== +action.payload)
+                state.openedIds = state.openedIds.filter((id) => !id.toString().includes(action.payload.toString()))
+            }
+        },
+
+        onAddDefault: (state, action) => {
+            const arr = [...state.defaultRepresentation]
+            let foundedIndex = -1
+
+            for (let i = 0; i < arr.length; i++) {
+                let next = arr[i + 1]
+                if (arr[i].parent_id === null) {
+                    foundedIndex = i
+                    if (next.parent_id !== null) {
+                        break
+                    }
+                }
+            }
+
+            if (foundedIndex !== -1) {
+                let index = (arr.length - 1) - foundedIndex
+                const newObj = {
+                    id: +arr[foundedIndex].id + 1,
+                    name: action.payload,
+                    parent_id: null
+                }
+
+                arr.splice(foundedIndex + 1, 0, newObj)
+                state.defaultRepresentation = arr
             }
         },
 
         onEditHandler: (state, action) => {
             let arr = [...state.defaultRepresentation]
-            console.log(action.payload)
-            const foundedIndex = arr.findIndex((el)=>+el.id === +action.payload.id)
-            console.log(foundedIndex)
+            const foundedIndex = arr.findIndex((el) => +el.id === +action.payload.id)
 
-            if(foundedIndex !== -1){
-                arr.splice(foundedIndex,1,action.payload)
+            if (foundedIndex !== -1) {
+                arr.splice(foundedIndex, 1, action.payload)
                 state.defaultRepresentation = arr
             }
         },
@@ -83,10 +108,9 @@ export const rootReducer = createSlice({
 
             if (foundedIndex !== -1) {
                 const arr = [...state.defaultRepresentation]
-
                 const newItem = {
-                    id: +arr[foundedIndex].id + 12391 + 1,
-                    name: action.payload.name + "added",
+                    id: +arr[foundedIndex].id + 1,
+                    name: action.payload.name,
                     parent_id: arr[foundedIndex].parent_id
                 }
                 arr.splice(foundedIndex + 1, 0, newItem)
@@ -95,8 +119,8 @@ export const rootReducer = createSlice({
                 const arr = [...state.defaultRepresentation]
                 let index = arr.findIndex((el) => +el.id === +action.payload.id)
                 const newItem = {
-                    id: action.payload.parent_id + 12398 + 1,
-                    name: action.payload.name + "added",
+                    id: +(action.payload.id + '1'),
+                    name: action.payload.name,
                     parent_id: action.payload.id
                 }
                 arr.splice(index + 1, 0, newItem)
@@ -107,13 +131,30 @@ export const rootReducer = createSlice({
         },
 
         onDeleteHandler: (state, action) => {
-            state.defaultRepresentation = [...state.defaultRepresentation.filter((el) => +el.id !== +action.payload.id && +el.parent_id !== +action.payload.id)]
+            let newArr = [...state.defaultRepresentation]
+
+            function recursive(currentItem) {
+                const childElements = newArr.filter((el) => +el.parent_id === +currentItem.id)
+
+                if (childElements.length > 0) {
+                    childElements.forEach((element) => recursive(element))
+                }
+
+                const foundedIndex = newArr.findIndex((el) => +el.id === +currentItem.id)
+                if (foundedIndex !== -1) {
+                    newArr.splice(foundedIndex, 1)
+                }
+
+            }
+
+            recursive(action.payload)
+            state.defaultRepresentation = newArr
         },
     },
 })
 
 export const {
-    setOpenedIds, onEditHandler, onAddHandler, onDeleteHandler
+    setOpenedIds, onEditHandler, onAddHandler, onDeleteHandler, onAddDefault
 }
     = rootReducer.actions
 
