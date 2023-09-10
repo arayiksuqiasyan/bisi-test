@@ -8,11 +8,11 @@ import {Provider} from 'react-redux'
 import {saveState} from "./helpers/rootStoreLocalStorage";
 import debounce from "debounce";
 
-// store.subscribe(
-//     debounce(() => {
-//         saveState(store.getState()).then();
-//     }, 800)
-// );
+store.subscribe(
+    debounce(() => {
+        saveState(store.getState()).then();
+    }, 800)
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

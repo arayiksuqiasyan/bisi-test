@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-const initialState = {
+export const initialState = {
     openedIds: [],
     defaultRepresentation: [
         {
@@ -44,12 +44,10 @@ const initialState = {
             parent_id: 1012
         }
     ]
-
-
 }
 
 export const rootReducer = createSlice({
-    name: 'counter',
+    name: 'root',
     initialState,
     reducers: {
         setOpenedIds: (state, action) => {
@@ -76,7 +74,6 @@ export const rootReducer = createSlice({
             }
 
             if (foundedIndex !== -1) {
-                let index = (arr.length - 1) - foundedIndex
                 const newObj = {
                     id: +arr[foundedIndex].id + 1,
                     name: action.payload,

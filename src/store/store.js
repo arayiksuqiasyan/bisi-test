@@ -6,7 +6,7 @@ const reducers = combineReducers({root:rootReducer})
 
 const store = configureStore({
     reducer: reducers,
-    // preloadedState: loadState(),
+    preloadedState:loadState(),
 
 })
 

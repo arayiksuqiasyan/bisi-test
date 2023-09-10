@@ -24,7 +24,7 @@ function App() {
     const onAdd = (e, child) => {
         e.stopPropagation()
         let name = prompt('select Name')
-        dispatch(onAddHandler({...child, name}))
+        name && dispatch(onAddHandler({...child, name}))
     }
 
     const onDelete = (e, child) => {
@@ -35,7 +35,7 @@ function App() {
     const onAddDefaultHandler = (e) => {
         e.stopPropagation()
         let name = prompt('select Name')
-        dispatch(onAddDefault(name))
+        name && dispatch(onAddDefault(name))
     }
 
     const arrowIcon = useCallback((child) => {
